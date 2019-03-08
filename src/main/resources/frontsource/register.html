@@ -46,12 +46,19 @@
     </div>
     <div>
         <button id="register" type="submit">
-            获取otp短信
+           注册
+        </button>
+        <button id="login" type="submit">
+            登陆
         </button>
     </div>
 </body>
 <script>
     jQuery(document).ready(function () {
+        $("#login").on("click",function () {//
+            window.location.href = "login.html";
+        });
+
         $("#register").on("click",function () {//
             var telphone = $("#telphone").val();
             var otpCode = $("#otpCode").val();
@@ -98,7 +105,6 @@
                 },
                 xhrFields:{withCredentials:true},
                 success:function (data) {
-                    debugger;
                     if(data.status == "success"){
                         alert("注册用户成功！");
                     }else{
