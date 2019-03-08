@@ -1,6 +1,7 @@
 package com.gy.service;
 
 import com.gy.dataobject.UserDO;
+import com.gy.error.BusinessException;
 import com.gy.service.model.UserModel;
 
 /**
@@ -8,4 +9,6 @@ import com.gy.service.model.UserModel;
  */
 public interface UserService {
     UserModel getUserById(Integer id);
+
+    void register(UserModel userModel) throws BusinessException;
 }
