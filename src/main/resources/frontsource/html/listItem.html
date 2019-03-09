@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <h3>商品列表浏览</h3>
+    <div>
+        <table style="border: 1px">
+            <thead>
+            <tr>
+                <th>商品名</th>
+                <th>商品图片</th>
+                <th>商品描述</th>
+                <th>商品价格</th>
+                <th>商品库存</th>
+                <th>商品销量</th>
+            </tr>
+            </thead>
+            <tbody id="container">
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+<script>
+    jQuery(document).ready(function () {
+        var g_itemList = [];
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8090/item/list",
+            xhrFields: {withCredentials: true},
+            success: function (data) {
+                if (data.status == "success") {
+                    /*alert("获取商品信息成功！");*/
+                    g_itemList = data.data;
+                    reloadDom();
+                } else {
+                    alert("获取商品信息失败，原因：" + data.data.errMsg);
+                }
+            },
+            error: function (data) {
+                alert("获取商品信息失败，原因：" + data.responseText);
+            }
+        });
+        function reloadDom() {
+            for (var i = 0; i < g_itemList.length; i++) {
+                var itemVo = g_itemList[i];
+                var dom = "<tr data-id='"+itemVo.id+"' id='itemDetail"+itemVo.id+"'><td>" + itemVo.title + "</td><td><img style='width: auto;height: 200px' target='blank' src='" + itemVo.imgUrl + "'/></td><td>"
+                        + itemVo.descp + "</td><td>" + itemVo.price + "</td><td>" + itemVo.stock + "</td><td>" + itemVo.sales + "</td></tr>";
+                $('#container').append(dom);
+                $("#itemDetail"+itemVo.id).on("click",function(e){
+                    window.location.href = "getItem.html?id="+ $(this).data('id');
+                });
+            }
+        };
+    });
+
+</script>
+</html>

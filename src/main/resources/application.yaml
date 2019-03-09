@@ -3,10 +3,14 @@ server:
 mybatis:
   mapper-locations: classpath:mapping/*.xml
 
+logging:
+  level:
+   com.gy.dao: debug
+
 spring:
   datasource:
     name: spike
-    url: jdbc:mysql://127.0.0.1:3306/spike
+    url: jdbc:mysql://127.0.0.1:3306/spike?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
     #使用druid数据源

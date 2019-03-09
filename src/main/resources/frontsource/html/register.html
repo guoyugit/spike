@@ -1,8 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-   <!-- <script src="jquery.js"></script>-->
+    <script src="../js/jquery.min.js"></script>
 </head>
 <body>
     <div>
@@ -61,35 +60,35 @@
 
         $("#register").on("click",function () {//
             var telphone = $("#telphone").val();
-            var otpCode = $("#otpCode").val();
-            var name = $("#name").val();
-            var gender = $("#gender").val();
-            var age = $("#age").val();
-            var password = $("#password").val();
-            if(telphone == null || telphone == ""){
-                alert("手机号不能为空");
-                return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
-            }
-            if(otpCode == null || otpCode == ""){
-                alert("验证码不能为空");
-                return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
-            }
-            if(name == null || name == ""){
-                alert("用户昵称不能为空");
-                return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
-            }
-            if(gender == null || gender == ""){
-                alert("性别不能为空");
-                return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
-            }
-            if(age == null || age == ""){
-                alert("年龄不能为空");
-                return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
-            }
-            if(password == null || password == ""){
-                alert("密码不能为空");
-                return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
-            }
+             var otpCode = $("#otpCode").val();
+             var name = $("#name").val();
+             var gender = $("#gender").val();
+             var age = $("#age").val();
+             var password = $("#password").val();
+             if(telphone == null || telphone == ""){
+             alert("手机号不能为空");
+             return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
+             }
+             if(otpCode == null || otpCode == ""){
+             alert("验证码不能为空");
+             return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
+             }
+             if(name == null || name == ""){
+             alert("用户昵称不能为空");
+             return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
+             }
+             if(gender == null || gender == ""){
+             alert("性别不能为空");
+             return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
+             }
+             if(age == null || age == ""){
+             alert("年龄不能为空");
+             return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
+             }
+             if(password == null || password == ""){
+             alert("密码不能为空");
+             return false;//防止js的冒泡事件传递机制，会冒泡到上一层。即form post处理流里，此时returnfalse把冒泡事件捕获住，不让他传递给上一层。
+             }
             $.ajax({
                 type:"POST",
                 contentType:"application/x-www-form-urlencoded",

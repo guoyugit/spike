@@ -1,8 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-   <!-- <script src="jquery.js"></script>-->
+    <script src="../js/jquery.min.js"></script>
 </head>
 <body>
     <div>
@@ -39,7 +38,7 @@
                 success:function (data) {
                     if(data.status == "success"){
                         alert("otp已经发送到您的手机上，请注意查收！");
-                        window.location.href = "file:///F:/front/register.html";
+                        window.location.href = "file:///F:/front/html/register.html";
                     }else{
                         alert("otp发送失败，原因："+data.errMsg);
                     }

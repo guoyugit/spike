@@ -2,30 +2,21 @@ package com.gy.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.gy.controller.viewObject.UserVO;
-import com.gy.dao.UserDOMapper;
-import com.gy.dataobject.UserDO;
 import com.gy.error.BusinessException;
-import com.gy.error.CommonError;
 import com.gy.error.EmBusinessError;
 import com.gy.response.CommonReturnType;
 import com.gy.service.UserService;
 import com.gy.service.model.UserModel;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -47,7 +38,7 @@ public class UserController extends BaseController {
     //用户登陆接口
     @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
-    public CommonReturnType register(@RequestParam(name = "telphone") String telphone,
+    public CommonReturnType login(@RequestParam(name = "telphone") String telphone,
                                      @RequestParam(name = "password") String password) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         //入参校验
         if (StringUtils.isEmpty(telphone) || StringUtils.isEmpty(password)) {
@@ -58,7 +49,7 @@ public class UserController extends BaseController {
 
         //将登陆凭证加入到用户登陆成功的session内
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
-        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",userModel);
         return CommonReturnType.create(null);
     }
 
@@ -81,9 +72,12 @@ public class UserController extends BaseController {
         UserModel userModel = new UserModel();
         userModel.setName(name);
         userModel.setAge(age);
-        userModel.setGender(new Byte(String.valueOf(gender)));
+        if(gender != null){
+            userModel.setGender(new Byte(String.valueOf(gender)));
+        }
         userModel.setTelphone(telphone);
         userModel.setThirdPartyId("byphone");
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(password))
         userModel.setEncrptPassword(this.EncodeByMd5(password));
         this.userService.register(userModel);
         return CommonReturnType.create(null);

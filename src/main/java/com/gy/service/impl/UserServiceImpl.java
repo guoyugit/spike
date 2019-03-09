@@ -8,14 +8,14 @@ import com.gy.error.BusinessException;
 import com.gy.error.EmBusinessError;
 import com.gy.service.UserService;
 import com.gy.service.model.UserModel;
+import com.gy.validator.ValidationResult;
+import com.gy.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.plaf.nimbus.NimbusStyle;
 
 /**
  * Created by Administrator on 2019/3/5.
@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService {
     private UserDOMapper userDOMapper;
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
+    @Autowired
+    private ValidatorImpl validator;
 
     @Override
     public UserModel getUserById(Integer id) {
@@ -49,6 +51,10 @@ public class UserServiceImpl implements UserService {
 //                || userModel.getAge() == null) {
 //            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
 //        }
+        ValidationResult result = validator.validate(userModel);
+        if(result.isHasError()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
         UserDO userDO = converFromModel(userModel);
         try {
             userDOMapper.insertSelective(userDO);
