@@ -106,6 +106,7 @@
                 success:function (data) {
                     if(data.status == "success"){
                         alert("注册用户成功！");
+                        window.location.href = "listItem.html";
                     }else{
                         alert("注册用户失败，原因："+data.data.errMsg);
                     }

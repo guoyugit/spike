@@ -57,6 +57,7 @@
                 success:function (data) {
                     if(data.status == "success"){
                         alert("用户登陆成功！");
+                        window.location.href = "listItem.html";
                     }else{
                         alert("用户登陆失败，原因："+data.data.errMsg);
                     }

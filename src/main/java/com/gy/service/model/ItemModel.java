@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 public class ItemModel {
 
     private Integer id;
+    //使用聚合模型，如果promoModel不为空，则说明其拥有未结束的秒杀活动
+    private PromoModel promoModel;
 
     //商品名称
     @NotBlank(message = "商品名称不能为空")
@@ -18,7 +20,7 @@ public class ItemModel {
 
     //商品价格
     @NotNull(message = "商品价格不能为空")
-    @Min(value = 0,message = "商品价格必须大于0")
+    @Min(value = 0, message = "商品价格必须大于0")
     private BigDecimal price;
 
     //商品的库存
@@ -90,5 +92,13 @@ public class ItemModel {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public PromoModel getPromoModel() {
+        return promoModel;
+    }
+
+    public void setPromoModel(PromoModel promoModel) {
+        this.promoModel = promoModel;
     }
 }

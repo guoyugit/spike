@@ -7,7 +7,9 @@ import com.gy.dataobject.ItemStockDO;
 import com.gy.error.BusinessException;
 import com.gy.error.EmBusinessError;
 import com.gy.service.ItemService;
+import com.gy.service.PromoService;
 import com.gy.service.model.ItemModel;
+import com.gy.service.model.PromoModel;
 import com.gy.validator.ValidationResult;
 import com.gy.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +35,9 @@ public class ItemServiceImpl implements ItemService {
     private ItemDOMapper itemDoMapper;
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+
+    @Autowired
+    private PromoService promoService;
 
     @Override
     @Transactional
@@ -85,8 +90,13 @@ public class ItemServiceImpl implements ItemService {
     public ItemModel getItemById(Integer id) {
         ItemDO itemDO = itemDoMapper.selectByPrimaryKey(id);
         if (itemDO == null) return null;
+        //操作获得库存信息
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
-        return converItemModelFromDataObject(itemDO, itemStockDO);
+        ItemModel itemModel = converItemModelFromDataObject(itemDO, itemStockDO);
+        //获取活动商品信息
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        if (null != promoModel && promoModel.getStatus() != 3) itemModel.setPromoModel(promoModel);
+        return itemModel;
     }
 
     private ItemModel converItemModelFromDataObject(ItemDO itemDO, ItemStockDO itemStockDO) {
@@ -95,5 +105,19 @@ public class ItemServiceImpl implements ItemService {
         itemModel.setPrice(new BigDecimal(itemDO.getPrice() + ""));
         itemModel.setStock(itemStockDO.getStock());
         return itemModel;
+    }
+
+    @Override
+    @Transactional//保证事务一致性
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BusinessException {
+        int affactedRow = itemStockDOMapper.decreaseStock(itemId, amount);
+        if (affactedRow > 0) return true;//更新库存成功
+        return false;//更新库存失败
+    }
+
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) {
+        itemDoMapper.increaseSales(itemId, amount);
     }
 }
