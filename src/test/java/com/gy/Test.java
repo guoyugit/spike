@@ -24,9 +24,11 @@ public class Test {
     public static void main(String[] args) throws IOException {
         DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
         defaultResourceLoader.addProtocolResolver((location, loader) -> {
-            return new ClassPathResource(location);
+            if (location.startsWith("gy://"))
+                return new ClassPathResource(location.substring("gy://".length()));
+            return null;
         });
-        Resource resource = defaultResourceLoader.getResource("application.yaml");
+        Resource resource = defaultResourceLoader.getResource("gy://application.yaml");
         InputStream inputStream = resource.getInputStream();
         System.out.println(StreamUtils.copyToString(inputStream, Charset.forName("utf-8")));
 
